@@ -2,7 +2,7 @@
 
 Site pessoal com projetos, contatos e informações profissionais.
 
-**Pagina:** https://portfolio-lime-eight-wijr4nl5bf.vercel.app/
+**Página:** https://portfolio-lime-eight-wijr4nl5bf.vercel.app/
 
 ---
 
