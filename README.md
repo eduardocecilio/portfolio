@@ -2,8 +2,7 @@
 
 Site pessoal com projetos, contatos e informações profissionais.
 
-**Demo:** https://eduardocecilio.github.io/portfolio/  
-*(Se a página não abrir, ative o GitHub Pages em Settings → Pages → Deploy from a branch → Branch: `main`, Folder: `/`.)*
+**Pagina:** https://portfolio-lime-eight-wijr4nl5bf.vercel.app/
 
 ---
 
