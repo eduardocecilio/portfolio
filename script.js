@@ -1,163 +1,131 @@
 
 /**
  * Menu responsivo para o portfólio
- * @author Eduardo
+ * Ajustado para esperar o carregamento do include do `header` (evento: includes:loaded)
  */
-document.addEventListener('DOMContentLoaded', () => {
-    // Cache de elementos DOM para melhor performance
-    const elements = {
-        menuToggle: document.querySelector('.menu-toggle'),
-        menuNav: document.querySelector('.cabecalho__menu'),
-        menuItems: document.querySelectorAll('.cabecalho__menu__item'),
-        body: document.body,
-        menuLinks: document.querySelectorAll('.cabecalho__menu a:not(.cabecalho__menu__item > .cabecalho__menu__link)')
-    };
-    
-    // Verificar se os elementos necessários existem antes de continuar
-    if (!elements.menuNav || !elements.menuItems.length) {
-        console.warn('Elementos de menu não encontrados.');
-        return;
-    }
-    
-    // Configuração do menu mobile
-    const setupMobileMenu = () => {
-        if (!elements.menuToggle) return;
-        
-        elements.menuToggle.addEventListener('click', () => {
-            elements.menuToggle.classList.toggle('active');
-            elements.menuNav.classList.toggle('active');
-            
-            // Controle de scroll
-            elements.body.style.overflow = elements.menuNav.classList.contains('active') ? 'hidden' : '';
-        });
-    };
-    
-    // Configuração dos submenus (diferente para mobile e desktop)
-    const setupSubmenus = () => {
-        elements.menuItems.forEach(item => {
+(function () {
+    let menuInitialized = false;
+
+    const initMenu = () => {
+        if (menuInitialized) return;
+
+        const menuToggle = document.querySelector('.menu-toggle');
+        const menuNav = document.querySelector('.cabecalho__menu');
+        const menuItems = document.querySelectorAll('.cabecalho__menu__item');
+        const body = document.body;
+        // Seleciona todos os links com href diferente de '#' (exclui o toggle "Projetos")
+        const menuLinks = menuNav ? Array.from(menuNav.querySelectorAll('a[href]')).filter(a => a.getAttribute('href') !== '#') : [];
+
+        if (!menuNav || !menuItems.length) {
+            console.warn('Elementos de menu não encontrados.');
+            return;
+        }
+
+        menuInitialized = true;
+
+        // Configuração do menu mobile
+        if (menuToggle) {
+            menuToggle.addEventListener('click', () => {
+                menuToggle.classList.toggle('active');
+                menuNav.classList.toggle('active');
+                body.style.overflow = menuNav.classList.contains('active') ? 'hidden' : '';
+            });
+        }
+
+        // Submenus (mobile toggle / desktop hover)
+        menuItems.forEach(item => {
             const menuLink = item.querySelector('.cabecalho__menu__link');
-            if (menuLink) {
-                // Em dispositivos móveis, toggle ao clicar
-                menuLink.addEventListener('click', (e) => {
-                    if (window.innerWidth <= 768) {
-                        e.preventDefault();
-                        
-                        // Toggle do estado ativo
-                        const wasActive = item.classList.contains('active');
-                        
-                        // Fechar todos os outros submenus primeiro
-                        elements.menuItems.forEach(otherItem => {
-                            if (otherItem !== item) {
-                                otherItem.classList.remove('active');
-                                const otherLink = otherItem.querySelector('.cabecalho__menu__link');
-                                if (otherLink) otherLink.setAttribute('aria-expanded', 'false');
-                            }
-                        });
-                        
-                        // Toggle do menu atual
-                        item.classList.toggle('active', !wasActive);
-                        menuLink.setAttribute('aria-expanded', !wasActive ? 'true' : 'false');
-                    } else {
-                        // No desktop, apenas prevenir a navegação do link "Projetos"
-                        e.preventDefault();
-                    }
-                });
-            }
-        });
-    };
-    
-    // Fechar o menu ao clicar em um link
-    const setupMenuLinkClosing = () => {
-        elements.menuLinks.forEach(link => {
-            link.addEventListener('click', () => {
+            if (!menuLink) return;
+
+            menuLink.addEventListener('click', (e) => {
                 if (window.innerWidth <= 768) {
-                    elements.menuToggle.classList.remove('active');
-                    elements.menuNav.classList.remove('active');
-                    elements.body.style.overflow = '';
+                    e.preventDefault();
+                    const wasActive = item.classList.contains('active');
+
+                    // Fecha outros submenus
+                    menuItems.forEach(otherItem => {
+                        if (otherItem !== item) {
+                            otherItem.classList.remove('active');
+                            const otherLink = otherItem.querySelector('.cabecalho__menu__link');
+                            if (otherLink) otherLink.setAttribute('aria-expanded', 'false');
+                        }
+                    });
+
+                    item.classList.toggle('active', !wasActive);
+                    menuLink.setAttribute('aria-expanded', !wasActive ? 'true' : 'false');
+                } else {
+                    // No desktop, prevenir comportamento padrão caso queira manter hover
+                    e.preventDefault();
                 }
             });
         });
-    };
-    
-    // Fechar o menu ao clicar fora
-    const setupOutsideClickClosing = () => {
+
+        // Fechar o menu ao clicar em um link de navegação (no mobile)
+        menuLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                // Se for mobile, animamos o fechamento antes de navegar para dar sensação mais suave
+                if (window.innerWidth <= 768) {
+                    e.preventDefault();
+                    const href = link.getAttribute('href');
+
+                    if (menuToggle) menuToggle.classList.remove('active');
+                    menuNav.classList.remove('active');
+                    body.style.overflow = '';
+
+                    // Aguarda a transição do menu (200ms) e então navega
+                    setTimeout(() => {
+                        // navegação segura
+                        window.location.href = href;
+                    }, 200);
+                }
+            });
+        });
+
+        // Fechar o menu ao clicar fora
         document.addEventListener('click', (e) => {
-            if (window.innerWidth <= 768 && 
-                !e.target.closest('.cabecalho__menu') && 
-                !e.target.closest('.menu-toggle') && 
-                elements.menuNav.classList.contains('active')) {
-                elements.menuToggle.classList.remove('active');
-                elements.menuNav.classList.remove('active');
-                elements.body.style.overflow = '';
+            if (window.innerWidth <= 768 && !e.target.closest('.cabecalho__menu') && !e.target.closest('.menu-toggle') && menuNav.classList.contains('active')) {
+                if (menuToggle) menuToggle.classList.remove('active');
+                menuNav.classList.remove('active');
+                body.style.overflow = '';
             }
         });
-    };
-    
-    // Ajuste de viewport quando a tela é redimensionada
-    const setupResizeHandling = () => {
+
+        // Ajuste ao redimensionar
+        let resizeTimeout;
         const resetMobileMenuState = () => {
             if (window.innerWidth > 768) {
-                elements.menuToggle.classList.remove('active');
-                elements.menuNav.classList.remove('active');
-                elements.body.style.overflow = '';
-                
-                elements.menuItems.forEach(item => {
-                    item.classList.remove('active');
-                });
+                if (menuToggle) menuToggle.classList.remove('active');
+                menuNav.classList.remove('active');
+                body.style.overflow = '';
+                menuItems.forEach(item => item.classList.remove('active'));
             }
         };
-        
-        // Throttle para melhorar performance
-        let resizeTimeout;
         window.addEventListener('resize', () => {
             clearTimeout(resizeTimeout);
             resizeTimeout = setTimeout(resetMobileMenuState, 100);
         });
-    };
-    
-    // Adicionar suporte para navegação por teclado
-    const setupKeyboardNavigation = () => {
-        elements.menuItems.forEach(item => {
+
+        // Navegação por teclado (manter acesso)
+        menuItems.forEach(item => {
             const menuLink = item.querySelector('.cabecalho__menu__link');
-            if (menuLink) {
-                menuLink.addEventListener('keydown', (e) => {
-                    // Abrir submenu com tecla Enter ou Space
-                    if ((e.key === 'Enter' || e.key === ' ') && window.innerWidth > 768) {
-                        e.preventDefault();
-                        item.classList.add('active');
-                        menuLink.setAttribute('aria-expanded', 'true');
-                    }
-                    
-                    // Fechar submenu com Escape
-                    if (e.key === 'Escape' && item.classList.contains('active')) {
-                        item.classList.remove('active');
-                        menuLink.setAttribute('aria-expanded', 'false');
-                        menuLink.focus();
-                    }
-                });
-            }
-            
-            // Fechar submenu quando o foco sair do submenu
-            const submenu = item.querySelector('.submenu');
-            if (submenu) {
-                const submenuLinks = submenu.querySelectorAll('a');
-                if (submenuLinks.length) {
-                    submenuLinks[submenuLinks.length - 1].addEventListener('blur', () => {
-                        if (!submenu.contains(document.activeElement) && window.innerWidth > 768) {
-                            item.classList.remove('active');
-                            menuLink.setAttribute('aria-expanded', 'false');
-                        }
-                    });
+            if (!menuLink) return;
+
+            menuLink.addEventListener('keydown', (e) => {
+                if ((e.key === 'Enter' || e.key === ' ') && window.innerWidth > 768) {
+                    e.preventDefault();
+                    item.classList.add('active');
+                    menuLink.setAttribute('aria-expanded', 'true');
                 }
-            }
+                if (e.key === 'Escape' && item.classList.contains('active')) {
+                    item.classList.remove('active');
+                    menuLink.setAttribute('aria-expanded', 'false');
+                    menuLink.focus();
+                }
+            });
         });
     };
 
-    // Inicialização
-    setupMobileMenu();
-    setupSubmenus();
-    setupMenuLinkClosing();
-    setupOutsideClickClosing();
-    setupResizeHandling();
-    setupKeyboardNavigation();
-});
+    // Inicializa quando o DOM estiver pronto e também quando os includes forem inseridos
+    document.addEventListener('DOMContentLoaded', initMenu);
+    document.addEventListener('includes:loaded', initMenu);
+})();
