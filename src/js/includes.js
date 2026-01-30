@@ -1,22 +1,29 @@
-document.addEventListener('DOMContentLoaded', () => {
-  const loadInclude = (id, file) => {
-    const el = document.getElementById(id);
-    if (el) {
-      // Agora buscamos dentro de src/components/
-      fetch(`src/components/${file}`)
-        .then(response => {
-          if (!response.ok) throw new Error(`Erro ao carregar ${file}: ${response.statusText}`);
-          return response.text();
-        })
-        .then(data => {
-          el.innerHTML = data;
-          // Dispara o evento para caso outros scripts precisem do header/footer pronto
-          document.dispatchEvent(new CustomEvent('includes:loaded', { detail: { id } }));
-        })
-        .catch(error => console.error('Erro no include:', error));
-    }
-  };
+const loadInclude = async (id, file) => {
+  const el = document.getElementById(id);
+  if (!el) return;
 
-  loadInclude('header', 'header.html');
-  loadInclude('footer', 'footer.html');
-});
+  try {
+    const response = await fetch(`./src/components/${file}`);
+    if (!response.ok) throw new Error(`Erro: ${response.status}`);
+    const data = await response.text();
+    
+    el.innerHTML = data;
+    
+    // Notifica o script.js que o header/footer chegou
+    document.dispatchEvent(new CustomEvent('includes:loaded', { detail: { id } }));
+  } catch (error) {
+    console.error(`Erro ao carregar ${file}:`, error);
+  }
+};
+
+// Esta função garante que o script espere as DIVs existirem no HTML
+const initIncludes = () => {
+    loadInclude('header', 'header.html');
+    loadInclude('footer', 'footer.html');
+};
+
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initIncludes);
+} else {
+    initIncludes();
+}
