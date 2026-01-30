@@ -4,23 +4,17 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
-  <meta name="description" content="Portfólio de Eduardo - Desenvolvedor Web criativo com foco em HTML, CSS e JavaScript">
+  <meta name="description" content="Portfólio de Eduardo - Desenvolvedor Web focado em HTML, CSS e JavaScript">
   <meta name="author" content="Eduardo">
   
   <title>Portfólio | Eduardo - Desenvolvedor Web</title>
   
-  <!-- Favicon -->
-  <link rel="icon" href="assets/favicon.ico" type="image/x-icon">
+  <link rel="icon" href="src/assets/github.png" type="image/png">
   
-  <!-- Preload para fontes importantes -->
-  <link rel="preload" href="https://fonts.googleapis.com/css2?family=Krona+One&family=Montserrat:wght@400;600;700&display=swap" as="style">
+  <link rel="stylesheet" href="src/styles/normalize.css">
+  <link rel="stylesheet" href="src/styles/style.css">
   
-  <!-- CSS -->
-  <link rel="stylesheet" href="styles/normalize.css">
-  <link rel="stylesheet" href="styles/style.css">
-  
-  <!-- Scripts -->
-  <script src="script.js" defer></script>
+  <script src="src/js/script.js" defer></script>
 </head>
 
 <body>
@@ -28,32 +22,40 @@
   
   <main class="apresentacao">
     <section class="apresentacao__conteudo">
-      <h1 class="apresentacao__conteudo__titulo">Eleve suas ideias a outro nível <strong class="titulo-destacado">com
-          projetos criativos e bem executados!</strong></h1>
-      <p class="apresentacao__conteudo__paragrafo">Olá! Sou um desenvolvedor criativo com foco em HTML, CSS e
-        JavaScript, sempre em busca de transformar ideias em realidade. Gosto de aprender e explorar soluções que
-        facilitem o dia a dia, seja organizando fluxos de trabalho ou criando experiências únicas na web. Atualmente,
-        estou me dedicando a projetos pessoais e ajudando a criar conexões através da tecnologia. Vamos conversar?</p>
+      <h1 class="apresentacao__conteudo__titulo">
+        Eleve suas ideias a outro nível 
+        <strong class="titulo-destacado">com projetos criativos e bem executados!</strong>
+      </h1>
+      <p class="apresentacao__conteudo__paragrafo">
+        Olá! Sou um desenvolvedor criativo com foco em HTML, CSS e JavaScript, sempre em busca de transformar ideias em realidade. 
+        Atualmente, estou cursando Ciência da Computação e me dedicando a projetos de automação e web. Vamos conversar?
+      </p>
+
       <div class="apresentacao__links">
         <h2 class="apresentacao__links__titulo">Acesse minhas redes:</h2>
+        
         <a class="apresentacao__links__link" href="https://github.com/eduardocecilio" target="_blank" rel="noopener" aria-label="Visite meu GitHub">
-          <img src="assets/github.png" alt="" aria-hidden="true" width="24" height="24">
+          <img src="src/assets/github.png" alt="" aria-hidden="true" width="24" height="24">
           GitHub
         </a>
+        
         <a class="apresentacao__links__link" href="https://www.instagram.com/eduardocecilio2/" target="_blank" rel="noopener" aria-label="Visite meu Instagram">
-          <img src="assets/instagram.png" alt="" aria-hidden="true" width="24" height="24">
+          <img src="src/assets/instagram.png" alt="" aria-hidden="true" width="24" height="24">
           Instagram
         </a>
+        
         <a class="apresentacao__links__link" href="https://www.linkedin.com/in/eduardo-cecilio/" target="_blank" rel="noopener" aria-label="Visite meu LinkedIn">
-          <img src="assets/linkedin.png" alt="" aria-hidden="true" width="24" height="24">
+          <img src="src/assets/linkedin.png" alt="" aria-hidden="true" width="24" height="24">
           LinkedIn
         </a>
       </div>
     </section>
-    <img src="assets/imagem.jpg" alt="Foto de Eduardo" class="apresentacao__imagem">
+
+    <img src="src/assets/imagem.jpg" alt="Foto de Eduardo" class="apresentacao__imagem">
   </main>
   
   <div id="footer"></div>
-  <script src="includes.js"></script>
+
+  <script src="src/js/includes.js"></script>
 </body>
 </html>

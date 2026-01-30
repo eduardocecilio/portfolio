@@ -1,0 +1,13 @@
+# Sistema Operacional
+.DS_Store
+Thumbs.db
+
+# IDEs e Editores
+.vscode/
+.idea/
+
+# Se você quiser ignorar fotos específicas que ainda não tratou
+# src/assets/foto-privada.jpg
+
+# Logs
+npm-debug.log*

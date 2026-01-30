@@ -1,0 +1,37 @@
+/* src/styles/style.css */
+
+/* 1. Definição de Variáveis (Design Tokens) */
+:root {
+    --fonte-principal: 'Montserrat', sans-serif;
+    --fonte-destaque: 'Krona One', sans-serif;
+    
+    --cor-primaria: #000000;
+    --cor-secundaria: #F6F6F6;
+    --cor-terceira: #22D4FD; /* Cor de destaque */
+    
+    --espacamento-padrao: 5%;
+}
+
+/* 2. Estilos Globais */
+body {
+    background-color: var(--cor-primaria);
+    color: var(--cor-secundaria);
+    font-family: var(--fonte-principal);
+    box-sizing: border-box; /* Melhor prática para cálculos de tamanho */
+}
+
+/* 3. Classe para o Link Ativo (usada pelo script.js que ajustamos) */
+.link-ativo {
+    color: var(--cor-terceira) !important;
+    font-weight: bold;
+    border-bottom: 2px solid var(--cor-terceira);
+}
+
+/* Exemplo de uso de Flexbox para a apresentação */
+.apresentacao {
+    padding: var(--espacamento-padrao) 10%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 82px;
+}

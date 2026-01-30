@@ -1,0 +1,106 @@
+/* 1. Definições e Globais mantidas conforme seu código */
+@import url('https://fonts.googleapis.com/css2?family=Krona+One&family=Montserrat:wght@400;600;700&display=swap');
+
+:root {
+    --cor-primaria: #000000;
+    --cor-secundaria: #F6F6F6;
+    --cor-terciaria: #22D4FD;
+    --cor-hover: #272727;
+    --cor-sombra: rgba(0, 0, 0, 0.2);
+    --foco-outline: 2px solid #22D4FD;
+    --fonte-primaria: "Krona One", sans-serif;
+    --fonte-secundaria: "Montserrat", sans-serif;
+    --tamanho-fonte-primaria: 2.25rem;
+    --tamanho-fonte-secundaria: 1.5rem;
+    --transicao-padrao: all 0.3s ease;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: var(--cor-primaria);
+    color: var(--cor-secundaria);
+    max-width: 100%;
+    overflow-x: hidden;
+    font-family: var(--fonte-secundaria);
+    line-height: 1.6;
+}
+
+/* 2. Layout Unificado (Removidas repetições) */
+.apresentacao {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 40px;
+    padding: 5% 10%;
+    max-width: 1200px;
+    margin: 0 auto;
+    flex-wrap: wrap;
+}
+
+/* 3. Correção: Removido acento de 'apresentação' */
+.apresentacao__conteudo {
+    max-width: 615px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+}
+
+.apresentacao__conteudo__titulo {
+    font-size: var(--tamanho-fonte-primaria);
+    font-family: var(--fonte-primaria);
+    line-height: 1.3;
+}
+
+.apresentacao__conteudo__paragrafo {
+    font-size: 1.2rem;
+}
+
+/* 4. Links e Botões Estilizados */
+.apresentacao__links {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    width: 100%;
+}
+
+.apresentacao__links__titulo {
+    font-family: var(--fonte-primaria);
+    font-size: 1.2rem;
+    margin-bottom: 8px;
+}
+
+.apresentacao__links__link {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 16px;
+    font-weight: 600;
+    color: var(--cor-secundaria);
+    border: 2px solid var(--cor-terciaria);
+    border-radius: 8px;
+    width: 100%;
+    max-width: 378px;
+    padding: 16px 0;
+    text-decoration: none;
+    transition: var(--transicao-padrao);
+}
+
+.apresentacao__links__link:hover {
+    background-color: var(--cor-hover);
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(34, 212, 253, 0.3);
+}
+
+/* 5. Estilo para o link da página atual (integrado ao JS anterior) */
+.link-ativo {
+    color: var(--cor-secundaria) !important;
+    background-color: var(--cor-hover);
+    border-radius: 4px;
+}
